@@ -96,6 +96,7 @@ static bool addSpan(rcHeightfield& hf, const int x, const int y,
 	s->smax = smax;
 	s->area = area;
 	s->next = 0;
+	s->mmax = smax;
 	
 	// Empty cell, add the first span.
 	if (!hf.spans[idx])
@@ -122,6 +123,12 @@ static bool addSpan(rcHeightfield& hf, const int x, const int y,
 		}
 		else
 		{
+			// Calculate merge max.
+			if (rcAbs((int)s->smax - (int)cur->smax) <= flagMergeThr)
+				s->mmax = rcMin(s->smax, cur->smax);
+			else if (cur->smax > s->smax)
+				s->mmax = cur->mmax;
+			
 			// Merge spans.
 			if (cur->smin < s->smin)
 				s->smin = cur->smin;

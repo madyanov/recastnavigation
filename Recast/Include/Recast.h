@@ -277,8 +277,9 @@ struct rcSpan
 {
 	unsigned int smin : RC_SPAN_HEIGHT_BITS; ///< The lower limit of the span. [Limit: < #smax]
 	unsigned int smax : RC_SPAN_HEIGHT_BITS; ///< The upper limit of the span. [Limit: <= #RC_SPAN_MAX_HEIGHT]
-	unsigned int area : 6;                   ///< The area id assigned to the span.
+	unsigned int area : 8;                   ///< The area id assigned to the span.
 	rcSpan* next;                            ///< The next span higher up in column.
+	unsigned int mmax : RC_SPAN_HEIGHT_BITS; ///< The upper limit of the span after merge. [Limit: <= #RC_SPAN_MAX_HEIGHT]
 };
 
 /// A memory pool used for quick allocation of spans within a heightfield.
