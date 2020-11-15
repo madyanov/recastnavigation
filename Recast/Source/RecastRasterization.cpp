@@ -84,7 +84,8 @@ static void freeSpan(rcHeightfield& hf, rcSpan* ptr)
 
 static bool addSpan(rcHeightfield& hf, const int x, const int y,
 					const unsigned short smin, const unsigned short smax,
-					const unsigned char area, const int flagMergeThr)
+					const unsigned char area, const int flagMergeThr,
+					const int maxMergeThr)
 {
 	
 	int idx = x + y*hf.width;
@@ -124,7 +125,7 @@ static bool addSpan(rcHeightfield& hf, const int x, const int y,
 		else
 		{
 			// Calculate merge max.
-			if (rcAbs((int)s->smax - (int)cur->smax) <= flagMergeThr)
+			if (rcAbs((int)s->smax - (int)cur->smax) <= maxMergeThr)
 				s->mmax = rcMin(s->smax, cur->smax);
 			else if (cur->smax > s->smax)
 				s->mmax = cur->mmax;
@@ -174,11 +175,12 @@ static bool addSpan(rcHeightfield& hf, const int x, const int y,
 /// @see rcHeightfield, rcSpan.
 bool rcAddSpan(rcContext* ctx, rcHeightfield& hf, const int x, const int y,
 			   const unsigned short smin, const unsigned short smax,
-			   const unsigned char area, const int flagMergeThr)
+			   const unsigned char area, const int flagMergeThr,
+			   const int maxMergeThr)
 {
 	rcAssert(ctx);
 
-	if (!addSpan(hf, x, y, smin, smax, area, flagMergeThr))
+	if (!addSpan(hf, x, y, smin, smax, area, flagMergeThr, maxMergeThr))
 	{
 		ctx->log(RC_LOG_ERROR, "rcAddSpan: Out of memory.");
 		return false;
@@ -333,7 +335,7 @@ static bool rasterizeTri(const float* v0, const float* v1, const float* v2,
 			unsigned short ismin = (unsigned short)rcClamp((int)floorf(smin * ich), 0, RC_SPAN_MAX_HEIGHT);
 			unsigned short ismax = (unsigned short)rcClamp((int)ceilf(smax * ich), (int)ismin+1, RC_SPAN_MAX_HEIGHT);
 			
-			if (!addSpan(hf, x, y, ismin, ismax, area, flagMergeThr))
+			if (!addSpan(hf, x, y, ismin, ismax, area, flagMergeThr, flagMergeThr))
 				return false;
 		}
 	}

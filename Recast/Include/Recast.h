@@ -841,7 +841,8 @@ void rcClearUnwalkableTriangles(rcContext* ctx, const float walkableSlopeAngle, 
 ///  @returns True if the operation completed successfully.
 bool rcAddSpan(rcContext* ctx, rcHeightfield& hf, const int x, const int y,
 			   const unsigned short smin, const unsigned short smax,
-			   const unsigned char area, const int flagMergeThr);
+			   const unsigned char area, const int flagMergeThr,
+			   const int maxMergeThr);
 
 /// Rasterizes a triangle into the specified heightfield.
 ///  @ingroup recast
