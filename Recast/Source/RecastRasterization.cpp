@@ -126,7 +126,7 @@ static bool addSpan(rcHeightfield& hf, const int x, const int y,
 		{
 			// Calculate merge max.
 			if (rcAbs((int)s->smax - (int)cur->smax) <= maxMergeThr)
-				s->mmax = rcMin(s->smax, cur->smax);
+				s->mmax = rcMin(s->smax, cur->mmax);
 			else if (cur->smax > s->smax)
 				s->mmax = cur->mmax;
 			
